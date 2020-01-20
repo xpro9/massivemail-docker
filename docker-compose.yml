@@ -1,0 +1,34 @@
+version: '3'
+services:
+  php:
+    build: ./docker/php
+    container_name: massivemail-php
+    volumes:
+      - ./home:/home
+      - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+  nginx:
+    image: nginx:latest
+    container_name: massivemail-nginx
+    ports:
+    - "7168:80"
+    volumes:
+      - ./home:/home
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+  redis:
+    image: redis:latest
+    container_name: massivemail-redis
+
+  mysql:
+    image: mysql:5.7
+    container_name: massivemail-mysql
+    volumes:
+      - ./home:/home    
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=p9ses
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: massivemail-mysql
+    ports:
+      - 7169:80
