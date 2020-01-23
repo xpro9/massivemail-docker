@@ -26,6 +26,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=example
       - MYSQL_DATABASE=p9ses
+    ports:
+      - 7170:3306
   pma:
     image: phpmyadmin/phpmyadmin
     environment:
